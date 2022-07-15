@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kategorijas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nazivKategorije');
-            $table->timestamps();
+        Schema::table('izvodjacs', function (Blueprint $table) {
+            $table->integer('brojGremija');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategorijas');
+        Schema::table('izvodjacs', function (Blueprint $table) {
+            $table->removeColumn('brojGremija');
+        });
     }
 };

@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('pesmas', function (Blueprint $table) {
             $table->id();
+            $table->string('nazivPesme');
+            $table->string('nazivAlbuma');
+            $table->foreignId('zanrPesme');
             $table->timestamps();
         });
     }

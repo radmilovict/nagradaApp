@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kategorijas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nazivKategorije');
-            $table->timestamps();
+        Schema::table('nagradas', function (Blueprint $table) {
+            $table->renameColumn('kategorija','kategorijaNominacije');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategorijas');
+        Schema::table('nagradas', function (Blueprint $table) {
+            $table->renameColumn('kategorijaNominacije','kategorija');
+        });
     }
 };

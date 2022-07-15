@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('nagradas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('nominovaniIzvodjac');
+            $table->foreignId('kategorija');
             $table->timestamps();
         });
     }

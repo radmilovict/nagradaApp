@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('izvodjacs', function (Blueprint $table) {
             $table->id();
+            $table->string('nazivIzvodjaca');
+            $table->foreignId('nominovanaPesma'); 
             $table->timestamps();
         });
     }
