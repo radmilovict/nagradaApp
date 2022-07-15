@@ -65,7 +65,9 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        auth()->user()->tokens->each(function($token) {
+            $token->delete();
+        });;
         return response()->json(['Uspešno ste se izlogovali!']);
     }
 }
