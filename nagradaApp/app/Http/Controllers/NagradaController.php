@@ -47,7 +47,7 @@ class NagradaController extends Controller
      */
     public function show($id)
     {
-        return NagradaResource::collection(Nagrada::find($id));
+        return new NagradaResource(Nagrada::find($id));
     }
 
     /**

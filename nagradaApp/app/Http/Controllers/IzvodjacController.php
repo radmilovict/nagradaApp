@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\IzvodjacResource;
 use App\Models\Izvodjac;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class IzvodjacController extends Controller
 {
@@ -36,7 +37,23 @@ class IzvodjacController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nazivIzvodjaca' => 'required|string',
+            'nominovanaPesma' => 'required',
+            'brojGremija' => 'required'
+             
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $i = Izvodjac::create([
+            'nazivIzvodjaca' => $request->nazivIzvodjaca, 
+            'nominovanaPesma' => $request->nominovanaPesma, 
+            'brojGremija' => $request->brojGremija
+
+        ]);
+        $i->save();
+        return response()->json(['Izvodjac kreiran!', new IzvodjacResource($i)]);
     }
 
     /**

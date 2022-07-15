@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PesmaResource;
 use App\Models\Pesma;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PesmaController extends Controller
 {
@@ -36,7 +37,23 @@ class PesmaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nazivPesme' => 'required|string',
+            'nazivAlbuma' => 'required|string',
+            'zanrPesme' => 'required'
+             
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $pes = Pesma::create([
+            'nazivPesme' => $request->nazivPesme, 
+            'nazivAlbuma' => $request->nazivAlbuma, 
+            'zanrPesme' => $request->zanrPesme
+
+        ]);
+        $pes->save();
+        return response()->json(['Pesma kreirana!', new PesmaResource($pes)]);
     }
 
     /**
@@ -68,9 +85,30 @@ class PesmaController extends Controller
      * @param  \App\Models\Pesma  $pesma
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pesma $pesma)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nazivPesme' => 'string|min:3',
+            'nazivAlbuma' => '',
+            'zanrPesme' => ''
+             
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+
+        $p=Pesma::find($id);
+        if($p){
+            $p->nazivPesme = $request->nazivPesme;
+            $p->nazivAlbuma = $request->nazivAlbuma;
+            $p->zanrPesme = $request->zanrPesme;
+
+            $p->save();
+            return response()->json(['Pesma uspesno izmenjena!', new PesmaResource($p)]);
+        }else{
+            return response()->json('Trazeni objekat ne postoji u bazi');
+        }
+
     }
 
     /**
@@ -79,8 +117,17 @@ class PesmaController extends Controller
      * @param  \App\Models\Pesma  $pesma
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pesma $pesma)
+    public function destroy($id)
     {
-        //
+        $pesma = Pesma::find($id);
+        if($pesma){ 
+            $pesma->delete();
+            return response()->json("Uspesno obrisana pesma!" );
+        } else {
+
+            return response()->json([
+                'message' => 'Nije moguce obrisati pesmu jer ona ne postoji u bazi.',
+            ], 400);
+        }
     }
 }
