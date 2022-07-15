@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Izvodjac;
+use App\Models\Kategorija;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class NagradaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nominovaniIzvodjac'=>Izvodjac::find(random_int(1,Izvodjac::count())),
+            'kategorijaNominacije'=>Kategorija::find(random_int(1,Kategorija::count()))
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Pesma;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class IzvodjacFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nazivIzvodjaca'=>$this->faker->randomElement($array = array('Lady Gaga','Rihanna','Beyonce')),
+            'nominovanaPesma'=>Pesma::find(random_int(1,Pesma::count())),
+            'brojGremija'=>$this->faker->numberBetween($min=0,$max=10)
         ];
     }
 }
